@@ -14,10 +14,10 @@ var roleMover = {
       }
     }else if (creep.carry.energy == creep.carryCapacity) {
       var useableEnergyLocations = creep.room.find(FIND_STRUCTURES,{
-          filter: (structure) => {
-            return(structure.structureType == STRUCTURE_SPAWN
-              || structure.structureType == STRUCTURE_EXTENSION);
-          }
+        filter: (structure) => {
+          return(structure.structureType == STRUCTURE_SPAWN
+            || structure.structureType == STRUCTURE_EXTENSION) && (structure.energy < structure.energyCapacity);
+        }
       });
 
       if (useableEnergyLocations.length > 0) {
