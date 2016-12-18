@@ -23,7 +23,6 @@ console.log("**********************");
 
   //Spawn creeps in order
   if(harvesters.length < NUM_HARVESTER) {
-
     var newName = Game.spawns['Spawn1'].createCreep([WORK,CARRY,MOVE], undefined, {role: 'harvester', working: false});
   }
   else if(builders.length < NUM_BUILDER) {
