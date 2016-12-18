@@ -25,7 +25,9 @@ var roleMover = {
             creep.moveTo(useableEnergyLocations[0]);
         }
       }else{
-        //send to controller
+        if(creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
+          creep.moveTo(creep.room.controller);
+        }
       }
     }
   }
