@@ -3,9 +3,9 @@ var roleUpgrader = require('roleUpgrader');
 var roleBuilder = require('roleBuilder');
 var roleMover = require('roleMover');
 
-var NUM_BUILDER = 3;
+var NUM_BUILDER = 4;
 var NUM_HARVESTER = 3;
-var NUM_UPGRADER = 1;
+var NUM_UPGRADER = 2;
 var NUM_MOVER = 0;
 
 module.exports.loop = function () {
