@@ -28,9 +28,9 @@ var roleHarvester = {
                   creep.moveTo(targets[0]);
               }
             }else{
-              if(creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(creep.room.controller);
-              }
+              //if(creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
+              //  creep.moveTo(creep.room.controller);
+              //}
             }
     }
     //If creep needs to gather energy from a source
