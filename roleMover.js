@@ -4,16 +4,15 @@ var roleMover = {
     if (creep.carry.energy < creep.carryCapacity) {
       var containerWithEnergy = creep.room.find(FIND_STRUCTURES, {
           filter: (structure) => {
-              return ( structure.structureType == STRUCTURE_CONTAINER  && structure.energy > 0);
+              return (structure.structureType == STRUCTURE_CONTAINER && structure.store[RESOURCE_ENERGY] > 0);
           }
       });
-
       if (containerWithEnergy.length > 0) {
-        if(creep.transfer(containerWithEnergy[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+        if(creep.withdraw(containerWithEnergy[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
             creep.moveTo(containerWithEnergy[0]);
         }
       }
-    }else if (creep.carry.energy = creep.carryCapacity) {
+    }else if (creep.carry.energy == creep.carryCapacity) {
       var useableEnergyLocations = creep.room.find(FIND_STRUCTURES,{
           filter: (structure) => {
             return(structure.structureType == STRUCTURE_SPAWN
