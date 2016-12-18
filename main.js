@@ -3,10 +3,10 @@ var roleUpgrader = require('roleUpgrader');
 var roleBuilder = require('roleBuilder');
 var roleMover = require('roleMover');
 
-var NUM_BUILDER = 7;
-var NUM_HARVESTER = 5;
-var NUM_UPGRADER = 4;
-var NUM_MOVER = 4;
+var NUM_BUILDER = 3;
+var NUM_HARVESTER = 3;
+var NUM_UPGRADER = 1;
+var NUM_MOVER = 0;
 
 module.exports.loop = function () {
   var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
@@ -23,6 +23,7 @@ console.log("**********************");
 
   //Spawn creeps in order
   if(harvesters.length < NUM_HARVESTER) {
+
     var newName = Game.spawns['Spawn1'].createCreep([WORK,WORK,WORK,CARRY,MOVE], undefined, {role: 'harvester', working: false});
   }
   else if(builders.length < NUM_BUILDER) {
