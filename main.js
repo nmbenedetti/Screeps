@@ -24,13 +24,13 @@ console.log("**********************");
   //Spawn creeps in order
   if(harvesters.length < NUM_HARVESTER) {
 
-    var newName = Game.spawns['Spawn1'].createCreep([WORK,WORK,WORK,CARRY,MOVE], undefined, {role: 'harvester', working: false});
+    var newName = Game.spawns['Spawn1'].createCreep([WORK,CARRY,MOVE], undefined, {role: 'harvester', working: false});
   }
   else if(builders.length < NUM_BUILDER) {
-    var newName = Game.spawns['Spawn1'].createCreep([WORK,WORK,CARRY,CARRY,MOVE], undefined, {role: 'builder', building: false});
+    var newName = Game.spawns['Spawn1'].createCreep([WORK,CARRY,MOVE], undefined, {role: 'builder', building: false});
   }
   else if(upgraders.length < NUM_UPGRADER) {
-    var newName = Game.spawns['Spawn1'].createCreep([WORK,CARRY,MOVE,MOVE], undefined, {role: 'upgrader', upgrading: false});
+    var newName = Game.spawns['Spawn1'].createCreep([WORK,CARRY,MOVE], undefined, {role: 'upgrader', upgrading: false});
   }else if (movers.length < NUM_MOVER) {
       var newName = Game.spawns['Spawn1'].createCreep([CARRY,CARRY,MOVE], undefined, {role: 'mover'});
   }
