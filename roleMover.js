@@ -14,11 +14,22 @@ var roleMover = {
         }
       }
     }else if (creep.energy = creep.carryCapacity) {
-      //
+      var useableEnergyLocations = creep.room.find(FIND_STRUCTURES,{
+          filter: (structure) => {
+            return(structure.structureType = STRUCTURE_SPAWN
+              || structure.structureType = STRUCTURE_EXTENSION);
+          }
+      });
+
+      if (useableEnergyLocations.length > 0) {
+        if(creep.transfer(useableEnergyLocations[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+            creep.moveTo(useableEnergyLocations[0]);
+        }
+      }else{
+        //send to controller
+      }
     }
-    //If full move to extensions or spawn and drop off
-      //If the spawn and extension is full
   }
 };
 
-module.exports = roleUpgrader;
+module.exports = roleMover;
