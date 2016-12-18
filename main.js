@@ -14,12 +14,12 @@ module.exports.loop = function () {
   var builders = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder');
   var movers = _.filter(Game.creeps, (creep) => creep.memory.role == 'mover')
 
-Console.log("*****CREEP COUNTS*****");
-Console.log("HARVESTERS: " + harvesters.length);
-Console.log("BUILDERS:   " + builders.length);
-Console.log("UPGRADERS:  " + upgraders.length);
-Console.log("MOVERS:     " + movers.length);
-Console.log("**********************");
+console.log("*****CREEP COUNTS*****");
+console.log("HARVESTERS: " + harvesters.length);
+console.log("BUILDERS:   " + builders.length);
+console.log("UPGRADERS:  " + upgraders.length);
+console.log("MOVERS:     " + movers.length);
+console.log("**********************");
 
   //Spawn creeps in order
   if(harvesters.length < NUM_HARVESTER) {
