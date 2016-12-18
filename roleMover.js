@@ -1,7 +1,7 @@
 var roleMover = {
   run: function(creep) {
     //If i have space move to container and fill up
-    if (creep.energy < creep.carryCapacity) {
+    if (creep.carry.energy < creep.carryCapacity) {
       var containerWithEnergy = creep.room.find(FIND_STRUCTURES, {
           filter: (structure) => {
               return ( structure.structureType == STRUCTURE_CONTAINER  && structure.energy > 0);
@@ -13,7 +13,7 @@ var roleMover = {
             creep.moveTo(containerWithEnergy[0]);
         }
       }
-    }else if (creep.energy = creep.carryCapacity) {
+    }else if (creep.carry.energy = creep.carryCapacity) {
       var useableEnergyLocations = creep.room.find(FIND_STRUCTURES,{
           filter: (structure) => {
             return(structure.structureType == STRUCTURE_SPAWN
