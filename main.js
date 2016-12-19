@@ -3,8 +3,8 @@ var roleUpgrader = require('roleUpgrader');
 var roleBuilder = require('roleBuilder');
 var roleMover = require('roleMover');
 
-var NUM_BUILDER = 4;
-var NUM_HARVESTER = 3;
+var NUM_BUILDER = 5;
+var NUM_HARVESTER = 4;
 var NUM_UPGRADER = 2;
 var NUM_MOVER = 2;
 
@@ -34,6 +34,9 @@ console.log("**********************");
       var newName = Game.spawns['Spawn1'].createCreep([CARRY,CARRY,MOVE], undefined, {role: 'mover'});
   }
 
+if(newName < 0 && newName != -6 && !(typeof(newName)== 'String'){
+  console.log("Cannot Build Reason: " + newName);
+}
 
   //Make Creeps perform their roles
   for(var name in Game.creeps) {
