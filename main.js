@@ -34,7 +34,7 @@ console.log("**********************");
       var newName = Game.spawns['Spawn1'].createCreep([CARRY,CARRY,MOVE], undefined, {role: 'mover'});
   }
 
-if(newName < 0 && newName != -6 && !(typeof(newName)== 'String'){
+if(newName < 0 && newName != -6 && !(typeof(newName)== 'String')){
   console.log("Cannot Build Reason: " + newName);
 }
 
