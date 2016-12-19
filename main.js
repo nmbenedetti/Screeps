@@ -6,7 +6,7 @@ var roleMover = require('roleMover');
 var NUM_BUILDER = 4;
 var NUM_HARVESTER = 3;
 var NUM_UPGRADER = 2;
-var NUM_MOVER = 0;
+var NUM_MOVER = 2;
 
 module.exports.loop = function () {
   var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
