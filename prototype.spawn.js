@@ -1,7 +1,7 @@
 module.exports = function(){
   StructureSpawn.prototype.createBuilder =
     function(energy,roleName){
-      var numberOfParts = Math.floor(energy / 200);
+      var numberOfParts = Math.floor(energy / 400);
       var body = [];
       for(var i = 0; i < numberOfParts; i++){
         body.push(WORK);
@@ -17,7 +17,7 @@ module.exports = function(){
 
     StructureSpawn.prototype.createUpgrader =
       function(energy,roleName){
-        var numberOfParts = Math.floor(energy / 200);
+        var numberOfParts = Math.floor(energy / 400);
         var body = [];
         for(var i = 0; i < numberOfParts; i++){
           body.push(WORK);
@@ -34,7 +34,7 @@ module.exports = function(){
     StructureSpawn.prototype.createMover =
     //Get the count of the number of containers and storage.  If none do not make movers
       function(energy,roleName){
-        var numberOfParts = Math.floor(energy/100);
+        var numberOfParts = Math.floor(energy/300);
         var body = [];
         for(var i = 0; i < numberOfParts; i++){
           body.push(CARRY);
