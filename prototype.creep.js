@@ -23,14 +23,17 @@ module.exports = function(){
       if (EMPTY_SPAWN_LOCATIONS.length > 0) {
         if(this.transfer(EMPTY_SPAWN_LOCATIONS[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
             this.moveTo(EMPTY_SPAWN_LOCATIONS[0]);
+            console.log("Going to spawn");
         }
       }else if (EMPTY_STORAGE_LOCATIONS.length > 0){
         if(this.transfer(EMPTY_STORAGE_LOCATIONS[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
             this.moveTo(EMPTY_STORAGE_LOCATIONS[0]);
+            console.log("Going to storage");
         }
       }else if (EMPTY_TOWER_LOCATIONS.length >0) {
         if(this.transfer(EMPTY_TOWER_LOCATIONS[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
             this.moveTo(EMPTY_TOWER_LOCATIONS[0]);
+            console.log("Going to tower");
         }
       }
     }
