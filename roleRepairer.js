@@ -17,7 +17,8 @@ var roleRepairer = {
   	if(creep.memory.repairing == true) {
   	  var target = creep.pos.findClosestByPath(FIND_STRUCTURES, {
         filter: (structure) => {
-          return structure.structureType == STRUCTURE_CONTAINER && structure.hits < 100000;
+          return (structure.structureType == STRUCTURE_CONTAINER && structure.hits < 100000)
+          ||(structure.structureType == STRUCTURE_ROAD && structure.hits < 2000);
         }
       });
       if(target) {
@@ -26,10 +27,8 @@ var roleRepairer = {
         if(creep.repair(target) == ERR_NOT_IN_RANGE) {
           creep.moveTo(target);
         }
-      }
-      else {
-        creep.memory.target = Game.flags.Repairers;
-        creep.moveTo(Game.flags.Repairers);
+      }else {
+        creep.moveTo(Game.flags.Repair);
       }
     }
     //If creep needs to gather energy
