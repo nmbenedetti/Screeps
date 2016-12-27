@@ -5,10 +5,10 @@ var roleBuilder = require('roleBuilder');
 var roleMover = require('roleMover');
 var roleRepairer = require('roleRepairer');
 
-var NUM_BUILDER = 2;
+var NUM_BUILDER = 1;
 var NUM_HARVESTER = 2;
-var NUM_UPGRADER = 4;
-var NUM_MOVER = 1;
+var NUM_UPGRADER = 2;
+var NUM_MOVER = 2;
 var NUM_REPAIRER = 2;
 
 module.exports.loop = function () {
@@ -28,21 +28,12 @@ console.log("**********************");
 var maxEnergeyAvailable = Game.spawns.Spawn1.room.energyCapacityAvailable;
 var currentEnergyAvailable = Game.spawns.Spawn1.room.energyAvailable;
 
-  //Spawn creeps in order
-  /*if(harvesters.length < NUM_HARVESTER) {
-    var newName = Game.spawns['Spawn1'].createCreep([WORK,CARRY,MOVE], undefined, {role: 'harvester', working: false});
-  }else */
-
-
-
   for(var i in Game.spawns){
     var spawn = Game.spawns[i];
     if ( typeof spawn.memory.isOld == 'undefined') {
       var sources = spawn.room.find(FIND_SOURCES)
       spawn.memory.sources = [];
       for (var i in sources) {
-        console.log("index:" + i);
-        console.log("souce: " +i);
         var source = sources[i];
         spawn.memory.sources.push(source.id);
       }
