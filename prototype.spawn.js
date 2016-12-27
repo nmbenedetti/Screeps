@@ -34,7 +34,7 @@ module.exports = function(){
     StructureSpawn.prototype.createMover =
     //Get the count of the number of containers and storage.  If none do not make movers
       function(energy,roleName){
-        var numberOfParts = Math.floor(energy/300);
+        var numberOfParts = Math.floor(energy/200);
         var body = [];
         for(var i = 0; i < numberOfParts; i++){
           body.push(CARRY);

@@ -108,6 +108,16 @@ var currentEnergyAvailable = Game.spawns.Spawn1.room.energyAvailable;
 
   }
 
+  var hostiles = Game.spawns.Spawn1.room.find(FIND_HOSTILE_CREEPS);
+
+  if(hostiles.length > 0) {
+      var username = hostiles[0].owner.username;
+      Game.notify(`User ${username} spotted in Spawn1`);
+      var towers = Game.spawns.Spawn1.room..find(
+          FIND_MY_STRUCTURES, {filter: {structureType: STRUCTURE_TOWER}});
+      towers.forEach(tower => tower.attack(hostiles[0]));
+  }
+
     //Look for dead creeps and remove from memory
     for(var i in Memory.creeps) {
       if(!Game.creeps[i]) {
