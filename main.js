@@ -45,7 +45,7 @@ var roomToAttack = [];
       spawn.memory.isOld = true;
     }
 
-    if(roomToAttack.length > 0) && attackers.length < NUM_ATTACKERS{
+    if(roomToAttack.length > 0 && attackers.length < NUM_ATTACKERS){
     var newName = Game.spawns['Spawn1'].createCreep([TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,ATTACK,TOUGH,ATTACK,TOUGH,ATTACK,ATTACK,ATTACK,ATTACK,MOVE,MOVE,MOVE], undefined, {role: 'attacker' , homeRoom: spawnRoomName, targetRoom:roomToAttack[0]});
   }
 
