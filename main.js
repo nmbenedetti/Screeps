@@ -4,12 +4,14 @@ var roleUpgrader = require('roleUpgrader');
 var roleBuilder = require('roleBuilder');
 var roleMover = require('roleMover');
 var roleRepairer = require('roleRepairer');
+var roleAttacker = require('roleAttacker');
 
 var NUM_BUILDER = 1;
 var NUM_HARVESTER = 2;
 var NUM_UPGRADER = 2;
 var NUM_MOVER = 2;
 var NUM_REPAIRER = 2;
+var NUM_ATTACKERS = 5;
 
 module.exports.loop = function () {
   var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
@@ -17,6 +19,7 @@ module.exports.loop = function () {
   var builders = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder');
   var movers = _.filter(Game.creeps, (creep) => creep.memory.role == 'mover');
   var repairers = _.filter(Game.creeps, (creep) => creep.memory.role == 'repairer');
+  var attackers = _.filter(Game.creeps, (creep) => creep.memory.role == 'attacker');
 
 console.log("*****CREEP COUNTS*****");
 console.log("HARVESTERS: " + harvesters.length);
@@ -27,9 +30,11 @@ console.log("**********************");
 
 var maxEnergeyAvailable = Game.spawns.Spawn1.room.energyCapacityAvailable;
 var currentEnergyAvailable = Game.spawns.Spawn1.room.energyAvailable;
+var roomToAttack = [];
 
   for(var i in Game.spawns){
     var spawn = Game.spawns[i];
+    var spawnRoomName = spawn.room.name;
     if ( typeof spawn.memory.isOld == 'undefined') {
       var sources = spawn.room.find(FIND_SOURCES)
       spawn.memory.sources = [];
@@ -39,6 +44,10 @@ var currentEnergyAvailable = Game.spawns.Spawn1.room.energyAvailable;
       }
       spawn.memory.isOld = true;
     }
+
+    if(roomToAttack.length > 0) && attackers.length < NUM_ATTACKERS{
+    var newName = Game.spawns['Spawn1'].createCreep([TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,ATTACK,TOUGH,ATTACK,TOUGH,ATTACK,ATTACK,ATTACK,ATTACK,MOVE,MOVE,MOVE], undefined, {role: 'attacker' , homeRoom: spawnRoomName, targetRoom:roomToAttack[0]});
+  }
 
     var name;
 
@@ -102,8 +111,10 @@ var currentEnergyAvailable = Game.spawns.Spawn1.room.energyAvailable;
       }else if(creep.memory.role == 'mover'){
         roleMover.run(creep)
       }else if (creep.memory.role == 'repairer') {
-      roleRepairer.run(creep);
-    }
+        roleRepairer.run(creep);
+      }else if(creep.memory.role == 'attacker'){
+          roleAttacker.attackLocation(creep, roomToAttack[0]);
+      }
 
 
   }
