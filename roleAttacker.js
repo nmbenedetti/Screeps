@@ -17,17 +17,18 @@ var roleAttacker = {
                           (structure.structureType == STRUCTURE_EXTENSION ));
                       }
               });
-      if(tower) {
+             console.log(target);
+      if(tower.length != 0) {
           if(creep.attack(tower[0]) == ERR_NOT_IN_RANGE) {
               creep.moveTo(tower[0]);
           }
-      }else if (target) {
+      }else if (target != null) {
         if(creep.attack(target) == ERR_NOT_IN_RANGE) {
             creep.moveTo(target);
         }
       }else{
-        if(creep.attack(extension) == ERR_NOT_IN_RANGE) {
-            creep.moveTo(extension);
+        if(creep.attack(extension[0]) == ERR_NOT_IN_RANGE) {
+            creep.moveTo(extension[0]);
         }
       }
 
