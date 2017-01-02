@@ -16,9 +16,9 @@ var roleClaimer = {
            }
         }
       }
-      console.log('here');
+    //  console.log('here');
     }else{
-      console.log('here or here');
+      //console.log('here or here');
        var exit = creep.room.findExitTo(creep.memory.targetRoom);
        creep.moveTo(creep.pos.findClosestByRange(exit));
     }

@@ -101,6 +101,7 @@ module.exports.loop = function () {
         if (spot == -1) {
           if(spawnRoomName == i ){
             // spawn normal harvester
+            console.log('Do iget here');
             if(harvesters.length == 0){
 
               name = Game.spawns["Spawn1"].createHarvester(currentEnergyAvailable,"harvester");
