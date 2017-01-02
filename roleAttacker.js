@@ -17,6 +17,12 @@ var roleAttacker = {
                           (structure.structureType == STRUCTURE_EXTENSION ));
                       }
               });
+               var spawn = creep.room.find(FIND_STRUCTURES, {
+                     filter: (structure) => {
+                        return (
+                          (structure.structureType == STRUCTURE_SPAWN || structure.structureType == STRUCTURE_STORAGE || structure.structureType == STRUCTURE_LINK ));
+                      }
+              });
              console.log(target);
       if(tower.length != 0) {
           if(creep.attack(tower[0]) == ERR_NOT_IN_RANGE) {
@@ -26,10 +32,16 @@ var roleAttacker = {
         if(creep.attack(target) == ERR_NOT_IN_RANGE) {
             creep.moveTo(target);
         }
-      }else{
+      }else if (extension.length != 0){
         if(creep.attack(extension[0]) == ERR_NOT_IN_RANGE) {
             creep.moveTo(extension[0]);
         }
+      }else if(spawn.length != 0){
+          if(creep.attack(spawn[0]) == ERR_NOT_IN_RANGE) {
+            creep.moveTo(spawn[0]);
+        }
+      }else{
+          creep.moveTo(creep.room.controller);
       }
 
 

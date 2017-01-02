@@ -17,7 +17,7 @@ module.exports = function(){
 
     StructureSpawn.prototype.createUpgrader =
       function(energy,roleName){
-        var numberOfParts = Math.floor(energy / 400);
+        var numberOfParts = Math.floor(energy / 300);
         var body = [];
         for(var i = 0; i < numberOfParts; i++){
           body.push(WORK);

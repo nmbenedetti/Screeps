@@ -18,7 +18,7 @@ var roleUpgrader = {
 
       var containerWithEnergy = creep.room.find(FIND_STRUCTURES, {
           filter: (structure) => {
-              return (structure.structureType == STRUCTURE_CONTAINER && structure.store[RESOURCE_ENERGY] > 0);
+              return (structure.structureType == STRUCTURE_STORAGE && structure.store[RESOURCE_ENERGY] > 0);
           }
       });
       if (containerWithEnergy.length > 0) {

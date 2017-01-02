@@ -7,13 +7,13 @@ var roleRepairer = require('roleRepairer');
 var roleAttacker = require('roleAttacker');
 var roleClaimer = require('roleClaimer');
 
-var NUM_BUILDER = 1;
+var NUM_BUILDER = 0;
 var NUM_HARVESTER = 2;
-var NUM_UPGRADER = 2;
-var NUM_MOVER = 2;
+var NUM_UPGRADER = 5;
+var NUM_MOVER = 3;
 var NUM_REPAIRER = 2;
-var NUM_ATTACKERS = 5;
-var NUM_CLAIMERS = 3;
+var NUM_ATTACKERS = 2;
+var NUM_CLAIMERS = 1;
 
 module.exports.loop = function () {
   var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
@@ -29,15 +29,26 @@ console.log("HARVESTERS: " + harvesters.length);
 console.log("BUILDERS:   " + builders.length);
 console.log("UPGRADERS:  " + upgraders.length);
 console.log("MOVERS:     " + movers.length);
+console.log("Attackers:     " + attackers.length);
 console.log("**********************");
 
 var maxEnergeyAvailable = Game.spawns.Spawn1.room.energyCapacityAvailable;
 var currentEnergyAvailable = Game.spawns.Spawn1.room.energyAvailable;
-var roomToAttack = [];
+var roomToAttack = ['E74N78'];
 
   for(var i in Game.spawns){
     var spawn = Game.spawns[i];
     var spawnRoomName = spawn.room.name;
+
+
+    if(movers.length < NUM_MOVER) {
+        var newName = Game.spawns.Spawn1.createMover(maxEnergeyAvailable, "mover");
+        if(movers.length == 0){
+            var newName = Game.spawns.Spawn1.createMover(currentEnergyAvailable, "mover");
+        }
+      }
+
+
     if ( typeof spawn.memory.isOld == 'undefined') {
       var sources = spawn.room.find(FIND_SOURCES)
       spawn.memory.sources = [];
@@ -93,11 +104,6 @@ var roomToAttack = [];
         var newName = Game.spawns.Spawn1.createUpgrader(maxEnergeyAvailable, "upgrader");
       }else if(builders.length < NUM_BUILDER){
         var newName = Game.spawns.Spawn1.createBuilder( maxEnergeyAvailable, "builder");
-      }else if(movers.length < NUM_MOVER) {
-        var newName = Game.spawns.Spawn1.createMover(maxEnergeyAvailable, "mover");
-        if(movers.length == 0){
-            var newName = Game.spawns.Spawn1.createMover(currentEnergyAvailable, "mover");
-        }
       }else if (repairers.length < NUM_REPAIRER) {
           var newName = Game.spawns['Spawn1'].createCreep([WORK,CARRY,MOVE], undefined, {role: 'repairer' , repairing: false});
       }
