@@ -9,15 +9,15 @@ var roleScout = require('roleScout');
 var roleAttacker = require('roleAttacker');
 var roleClaimer = require('roleClaimer');
 
-var NUM_BUILDER = 2;
+var NUM_BUILDER = 0;
 var NUM_HARVESTER = 2;
-var NUM_UPGRADER =2;
-var NUM_MOVER = 1;
+var NUM_UPGRADER =4;
+var NUM_MOVER = 2;
 var NUM_REPAIRER = 1;
 var NUM_SCOUTS = 1;
-var NUM_ATTACKERS = 5;
+var NUM_ATTACKERS = 2;
 var NUM_CLAIMERS = 1;
-var NUM_RESERVERS = 1;
+var NUM_RESERVERS = 2;
 
 module.exports.loop = function () {
   var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
@@ -64,27 +64,7 @@ module.exports.loop = function () {
     var spawn = Game.spawns[i];
     var spawnRoomName = spawn.room.name;
 
-    if(movers.length < NUM_MOVER) {
-      var newName = Game.spawns.Spawn1.createMover(maxEnergeyAvailable, "mover");
-      if(movers.length == 0){
-        var newName = Game.spawns.Spawn1.createMover(currentEnergyAvailable, "mover");
-      }
-    }
 
-    if(roomToAttack.length > 0 && attackers.length < NUM_ATTACKERS){
-      var newName = Game.spawns['Spawn1'].createCreep([TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,ATTACK,TOUGH,ATTACK,TOUGH,ATTACK,ATTACK,ATTACK,ATTACK,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'attacker' , homeRoom: spawnRoomName, targetRoom:roomToAttack[0]});
-    }
-
-
-    if(roomsToScout.length > 0 && scouts.length < NUM_SCOUTS){
-      var newName = Game.spawns['Spawn1'].createCreep([WORK,CARRY,MOVE], undefined, {role: 'Scout' , homeRoom: spawnRoomName, targetRoom:roomsToScout[0], scouting: false});
-    }
-
-    if(roomTOClaim.length > 0 && claimers.length < NUM_CLAIMERS){
-      var newName = Game.spawns['Spawn1'].createCreep([CLAIM,MOVE,MOVE,MOVE], undefined, {role: 'claimer' , action:'claim', homeRoom: spawnRoomName, targetRoom:roomToAttack[0]});
-    }else if (roomTOReserve.length > 0 && reservers.length < NUM_RESERVERS) {
-      var newName = Game.spawns['Spawn1'].createCreep([CLAIM,MOVE,MOVE,MOVE], undefined, {role: 'claimer' , action:'reserve', homeRoom: spawnRoomName, targetRoom:roomTOReserve[0]});
-    }
 
     if ( typeof spawn.memory.isOld == 'undefined') {
       var sourcesObj = spawn.room.find(FIND_SOURCES)
@@ -157,7 +137,27 @@ module.exports.loop = function () {
       }
     }
 
+    if(movers.length < NUM_MOVER) {
+      var newName = Game.spawns.Spawn1.createMover(maxEnergeyAvailable, "mover");
+      if(movers.length == 0){
+        var newName = Game.spawns.Spawn1.createMover(currentEnergyAvailable, "mover");
+      }
+    }
 
+    if(roomToAttack.length > 0 && attackers.length < NUM_ATTACKERS){
+      var newName = Game.spawns['Spawn1'].createCreep([TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,ATTACK,TOUGH,ATTACK,TOUGH,ATTACK,ATTACK,ATTACK,ATTACK,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'attacker' , homeRoom: spawnRoomName, targetRoom:roomToAttack[0]});
+    }
+
+
+    if(roomsToScout.length > 0 && scouts.length < NUM_SCOUTS){
+      var newName = Game.spawns['Spawn1'].createCreep([WORK,CARRY,MOVE], undefined, {role: 'Scout' , homeRoom: spawnRoomName, targetRoom:roomsToScout[0], scouting: false});
+    }
+
+    if(roomTOClaim.length > 0 && claimers.length < NUM_CLAIMERS){
+      var newName = Game.spawns['Spawn1'].createCreep([CLAIM,MOVE,MOVE,MOVE], undefined, {role: 'claimer' , action:'claim', homeRoom: spawnRoomName, targetRoom:roomToAttack[0]});
+    }else if (roomTOReserve.length > 0 && reservers.length < NUM_RESERVERS) {
+      var newName = Game.spawns['Spawn1'].createCreep([CLAIM,MOVE,MOVE,MOVE], undefined, {role: 'claimer' , action:'reserve', homeRoom: spawnRoomName, targetRoom:roomTOReserve[0]});
+    }
 
 
     if(upgraders.length < NUM_UPGRADER) {
