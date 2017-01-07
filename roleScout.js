@@ -14,7 +14,8 @@ var roleScout = {
     if (creep.memory.scouting == true) {
     //  console.log("home room " + creep.room.name);
     //  console.log("home room mem " + creep.memory.homeRoom);
-      if (creep.room.name == creep.memory.homeRoom) {
+      if (creep.room.name != creep.memory.targetRoom) {
+          creep.moveTo(creep.room.controller);
         var exit = creep.room.findExitTo(creep.memory.targetRoom);
         creep.moveTo(creep.pos.findClosestByRange(exit));
     //    console.log("moving to scout");

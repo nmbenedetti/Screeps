@@ -16,8 +16,16 @@ var roleRemoteHarvester = {
     //If creep needs to transfer energy to spawn
     if (creep.memory.working == true) {
       //creep.say("Working!");
+      var targets = creep.room.find(FIND_CONSTRUCTION_SITES);
+      if(targets.length > 0) {
+        //creep.say("Building!");
+        if(creep.build(targets[0]) == ERR_NOT_IN_RANGE) {
+          creep.moveTo(targets[0]);
+        }
+      }else{
       if (creep.room.name == creep.memory.homeRoom) {
-        var targets = creep.room.find(FIND_STRUCTURES, {
+      
+         var targets = creep.room.find(FIND_STRUCTURES, {
           filter: (structure) => {
             return ((structure.structureType == STRUCTURE_STORAGE && structure.store[RESOURCE_ENERGY] < structure.storeCapacity));
                   //  ||(structure.structureType == STRUCTURE_SPAWN || structure.structureType == STRUCTURE_EXTENSION));
@@ -28,6 +36,8 @@ var roleRemoteHarvester = {
                 creep.moveTo(creep.pos.findClosestByPath(targets));
             }
           }
+      
+
       }else{
          //console.log("going home");
          //console.log(creep.memory.homeRoom);
@@ -36,7 +46,7 @@ var roleRemoteHarvester = {
         // console.log(exit);
          creep.moveTo(creep.pos.findClosestByRange(exit));
       }
-
+}
     }
     //If creep needs to gather energy from a source
     else if (creep.memory.working == false) {

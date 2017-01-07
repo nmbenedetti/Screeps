@@ -16,6 +16,8 @@ var roleHarvester = {
     //If creep needs to transfer energy to spawn
     if (creep.memory.working == true) {
       //creep.say("Working!");
+       creep.unloadEnergy("harvester");
+      /*
       var targets = creep.room.find(FIND_STRUCTURES, {
                   filter: (structure) => {
                     return (
@@ -28,11 +30,7 @@ var roleHarvester = {
               if(creep.transfer(creep.pos.findClosestByPath(targets), RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                   creep.moveTo(creep.pos.findClosestByPath(targets));
               }
-            }else{
-              //if(creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
-              //  creep.moveTo(creep.room.controller);
-              //}
-            }
+            }*/
     }
     //If creep needs to gather energy from a source
     else if (creep.memory.working == false) {

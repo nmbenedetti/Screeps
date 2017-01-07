@@ -9,7 +9,7 @@ var roleScout = require('roleScout');
 var roleAttacker = require('roleAttacker');
 var roleClaimer = require('roleClaimer');
 
-var NUM_BUILDER = 0;
+var NUM_BUILDER = 1;
 var NUM_HARVESTER = 2;
 var NUM_UPGRADER =4;
 var NUM_MOVER = 2;
@@ -20,7 +20,7 @@ var NUM_CLAIMERS = 1;
 var NUM_RESERVERS = 2;
 
 module.exports.loop = function () {
-  var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
+ /*var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
   var remoteHarvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'remoteHarvester');
   var upgraders = _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader');
   var builders = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder');
@@ -29,9 +29,43 @@ module.exports.loop = function () {
   var scouts = _.filter(Game.creeps, (creep) => creep.memory.role == 'Scout');
   var attackers = _.filter(Game.creeps, (creep) => creep.memory.role == 'attacker');
   var claimers = _.filter(Game.creeps, (creep) => creep.memory.role == 'claimer' && creep.memory.action == 'claim');
-  var reservers = _.filter(Game.creeps, (creep) => creep.memory.role == 'claimer' && creep.memory.action == 'reserve');
+  var reservers = _.filter(Game.creeps, (creep) => creep.memory.role == 'claimer' && creep.memory.action == 'reserve');*/
 
-  console.log("*****CREEP COUNTS*****");
+ 
+ 
+
+
+  var roomsToScout = [];
+  var roomsToHarvest = [];
+  var roomToAttack = [];
+  var roomTOClaim =[];
+  var roomTOReserve =['E73N77'];
+
+  /*
+  TO DO LIST for next major release
+  - Add containers in the room to the spawn will be used to determine if movers are needed
+  */
+
+  for(var i in Game.spawns){
+
+   var spawn = Game.spawns[i];
+     var maxEnergeyAvailable = spawn.room.energyCapacityAvailable;
+  var currentEnergyAvailable = spawn.room.energyAvailable;
+    var spawnRoomName = spawn.room.name;
+
+
+  var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester' && creep.memory.homeRoom == spawnRoomName);
+  var remoteHarvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'remoteHarvester'  && creep.memory.homeRoom == spawnRoomName);
+  var upgraders = _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader'  && creep.memory.homeRoom == spawnRoomName);
+  var builders = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder'  && creep.memory.homeRoom == spawnRoomName);
+  var movers = _.filter(Game.creeps, (creep) => creep.memory.role == 'mover'  && creep.memory.homeRoom == spawnRoomName);
+  var repairers = _.filter(Game.creeps, (creep) => creep.memory.role == 'repairer'  && creep.memory.homeRoom == spawnRoomName);
+  var scouts = _.filter(Game.creeps, (creep) => creep.memory.role == 'Scout'  && creep.memory.homeRoom == spawnRoomName);
+  var attackers = _.filter(Game.creeps, (creep) => creep.memory.role == 'attacker'  && creep.memory.homeRoom == spawnRoomName);
+  var claimers = _.filter(Game.creeps, (creep) => creep.memory.role == 'claimer' && creep.memory.action == 'claim'  && creep.memory.homeRoom == spawnRoomName);
+  var reservers = _.filter(Game.creeps, (creep) => creep.memory.role == 'claimer' && creep.memory.action == 'reserve'  && creep.memory.homeRoom == spawnRoomName);
+
+ console.log("*****CREEP COUNTS FOR ROOM"+ spawnRoomName +"*****");
   console.log("HARVESTERS: " + harvesters.length);
   console.log("REMOTE HARVESTERS: " + remoteHarvesters.length);
   console.log("BUILDERS:   " + builders.length);
@@ -43,30 +77,12 @@ module.exports.loop = function () {
   console.log("reservers:     " + reservers.length);
   console.log("**********************");
 
-  var maxEnergeyAvailable = Game.spawns.Spawn1.room.energyCapacityAvailable;
-  var currentEnergyAvailable = Game.spawns.Spawn1.room.energyAvailable;
 
 
-  var roomsToScout = [];
-  var roomsToHarvest = [];
-  var roomToAttack = [];
-  var roomTOClaim =[];
-  var roomTOReserve =['W6N3'];
-
-  /*
-  TO DO LIST for next major release
-  - Add containers in the room to the spawn will be used to determine if movers are needed
-  */
-
-  for(var i in Game.spawns){
+ 
 
 
-    var spawn = Game.spawns[i];
-    var spawnRoomName = spawn.room.name;
-
-
-
-    if ( typeof spawn.memory.isOld == 'undefined') {
+    if ( typeof spawn.memory.isOld == 'undefined' || spawn.memory.isOld == false) {
       var sourcesObj = spawn.room.find(FIND_SOURCES)
       var sourceObjects = {}
       var sources = [];
@@ -98,15 +114,17 @@ module.exports.loop = function () {
         var spawnListing = spawn.memory.roomSources[i][t];
         //console.log(spawnListing);
         var spot = harvesterIDArray.indexOf(spawnListing);
+        
         if (spot == -1) {
           if(spawnRoomName == i ){
             // spawn normal harvester
-            console.log('Do iget here');
+            
             if(harvesters.length == 0){
-
-              name = Game.spawns["Spawn1"].createHarvester(currentEnergyAvailable,"harvester");
+                name = spawn.createHarvester(currentEnergyAvailable,"harvester");
+             // name = Game.spawns["Spawn1"].createHarvester(currentEnergyAvailable,"harvester");
             }else{
-              name = Game.spawns["Spawn1"].createHarvester(maxEnergeyAvailable,"harvester");
+               name = spawn.createHarvester(maxEnergeyAvailable,"harvester");
+              //name = Game.spawns["Spawn1"].createHarvester(maxEnergeyAvailable,"harvester");
             }
 
 
@@ -121,9 +139,11 @@ module.exports.loop = function () {
             // spawn long distance
 
             if(harvesters.length == 0){
-              name = Game.spawns["Spawn1"].createRemoteHarvester(currentEnergyAvailable,"remoteHarvester");
+                 name = spawn.createRemoteHarvester(currentEnergyAvailable,"remoteHarvester");
+             // name = Game.spawns["Spawn1"].createRemoteHarvester(currentEnergyAvailable,"remoteHarvester");
             }else{
-              name = Game.spawns["Spawn1"].createRemoteHarvester(maxEnergeyAvailable,"remoteHarvester");
+              //name = Game.spawns["Spawn1"].createRemoteHarvester(maxEnergeyAvailable,"remoteHarvester");
+             name = spawn.createRemoteHarvester(maxEnergeyAvailable,"remoteHarvester");
             }
             if (!(name < 0)){
               var newCreep = Game.creeps[name];
@@ -139,40 +159,41 @@ module.exports.loop = function () {
     }
 
     if(movers.length < NUM_MOVER) {
-      var newName = Game.spawns.Spawn1.createMover(maxEnergeyAvailable, "mover");
+      var newName = spawn.createMover(maxEnergeyAvailable, "mover");
       if(movers.length == 0){
-        var newName = Game.spawns.Spawn1.createMover(currentEnergyAvailable, "mover");
+        var newName = spawn.createMover(currentEnergyAvailable, "mover");
       }
     }
 
     if(roomToAttack.length > 0 && attackers.length < NUM_ATTACKERS){
-      var newName = Game.spawns['Spawn1'].createCreep([TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,ATTACK,TOUGH,ATTACK,TOUGH,ATTACK,ATTACK,ATTACK,ATTACK,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'attacker' , homeRoom: spawnRoomName, targetRoom:roomToAttack[0]});
+      var newName = spawn.createCreep([TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,ATTACK,TOUGH,ATTACK,TOUGH,ATTACK,ATTACK,ATTACK,ATTACK,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'attacker' , homeRoom: spawnRoomName, targetRoom:roomToAttack[0]});
     }
 
 
     if(roomsToScout.length > 0 && scouts.length < NUM_SCOUTS){
-      var newName = Game.spawns['Spawn1'].createCreep([WORK,CARRY,MOVE], undefined, {role: 'Scout' , homeRoom: spawnRoomName, targetRoom:roomsToScout[0], scouting: false});
+      var newName = spawn.createCreep([WORK,CARRY,MOVE], undefined, {role: 'Scout' , homeRoom: spawnRoomName, targetRoom:roomsToScout[0], scouting: false});
     }
 
     if(roomTOClaim.length > 0 && claimers.length < NUM_CLAIMERS){
-      var newName = Game.spawns['Spawn1'].createCreep([CLAIM,MOVE,MOVE,MOVE], undefined, {role: 'claimer' , action:'claim', homeRoom: spawnRoomName, targetRoom:roomToAttack[0]});
+      var newName = spawn.createCreep([CLAIM,MOVE,MOVE,MOVE], undefined, {role: 'claimer' , action:'claim', homeRoom: spawnRoomName, targetRoom:roomToAttack[0]});
     }else if (roomTOReserve.length > 0 && reservers.length < NUM_RESERVERS) {
-      var newName = Game.spawns['Spawn1'].createCreep([CLAIM,MOVE,MOVE,MOVE], undefined, {role: 'claimer' , action:'reserve', homeRoom: spawnRoomName, targetRoom:roomTOReserve[0]});
+      var newName = spawn.createCreep([CLAIM,MOVE,MOVE,MOVE], undefined, {role: 'claimer' , action:'reserve', homeRoom: spawnRoomName, targetRoom:roomTOReserve[0]});
     }
 
-
-    if(upgraders.length < NUM_UPGRADER) {
-      var newName = Game.spawns.Spawn1.createUpgrader(maxEnergeyAvailable, "upgrader");
-      if(upgraders.length == 0){
-        var newName = Game.spawns.Spawn1.createUpgrader(currentEnergyAvailable, "upgrader");
-      }
-    }else if(builders.length < NUM_BUILDER){
-      var newName = Game.spawns.Spawn1.createBuilder( maxEnergeyAvailable, "builder");
+    if(builders.length < NUM_BUILDER){
+      console.log("Builder");
+      var newName = spawn.createBuilder( maxEnergeyAvailable, "builder");
+      console.log(newName);
       if(builders.length == 0){
-        var newName = Game.spawns.Spawn1.createBuilder(currentEnergyAvailable, "builder");
+        var newName = spawn.createBuilder(currentEnergyAvailable, "builder");
       }
-    }else if (repairers.length < NUM_REPAIRER) {
-      var newName = Game.spawns['Spawn1'].createCreep([WORK,CARRY,MOVE], undefined, {role: 'repairer' , repairing: false});
+    }else if(upgraders.length < NUM_UPGRADER) {
+      var newName = spawn.createUpgrader(maxEnergeyAvailable, "upgrader");
+      if(upgraders.length == 0){
+        var newName = spawn.createUpgrader(currentEnergyAvailable, "upgrader");
+      }
+    }else  if (repairers.length < NUM_REPAIRER) {
+      var newName = spawn.createCreep([WORK,CARRY,MOVE], undefined, {role: 'repairer' , repairing: false,homeRoom: spawn.room.name});
     }
 
     //Make Creeps perform their roles
@@ -203,18 +224,18 @@ module.exports.loop = function () {
         if(creep.memory.action == 'claim'){
           roleClaimer.claimLocation(creep, roomTOClaim[0]);
         }else if(creep.memory.action == 'reserve'){
-          console.log('I am a claimer with the reserve role');
+          //console.log('I am a claimer with the reserve role');
           roleClaimer.claimLocation(creep, roomTOReserve[0]);
         }
 
       }
     }
 
-    var hostiles = Game.spawns.Spawn1.room.find(FIND_HOSTILE_CREEPS);
+    var hostiles = spawn.room.find(FIND_HOSTILE_CREEPS);
 
     if(hostiles.length > 0) {
       var username = hostiles[0].owner.username;
-      Game.notify(`User ${username} spotted in Spawn1`);
+      Game.notify(`User ${username} spotted in spawn`);
       var towers = Game.spawns.Spawn1.room.find(
         FIND_MY_STRUCTURES, {filter: {structureType: STRUCTURE_TOWER}});
         towers.forEach(tower => tower.attack(hostiles[0]));
