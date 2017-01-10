@@ -25,26 +25,10 @@ var roleBuilder = {
   	}
     //If creep needs to gather energy
     else if (creep.memory.building == false) {
-      var containerWithEnergy = creep.room.find(FIND_STRUCTURES, {
-        filter: (structure) => {
-          return ((structure.structureType == STRUCTURE_CONTAINER && structure.store[RESOURCE_ENERGY] > 0));
-        }});
-
-      if(containerWithEnergy.length == 0){
-        var source = creep.pos.findClosestByPath(FIND_SOURCES);
-        if (creep.harvest(source) == ERR_NOT_IN_RANGE) {
-          creep.moveTo(source);
-        }
-      }else{
-        var containerID = creep.pos.findClosestByPath(containerWithEnergy);
-        if (containerWithEnergy.length > 0) {
-          if(creep.withdraw(containerID, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-              creep.moveTo(containerID);
-          }
-        }
+      var source = creep.pos.findClosestByPath(FIND_SOURCES);
+      if (creep.harvest(source) == ERR_NOT_IN_RANGE) {
+        creep.moveTo(source);
       }
-
-
     }
 	}
 };

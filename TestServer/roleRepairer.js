@@ -19,7 +19,8 @@ var roleRepairer = {
         filter: (structure) => {
           return (structure.structureType == STRUCTURE_CONTAINER && structure.hits < 100000)
           ||(structure.structureType == STRUCTURE_ROAD && structure.hits < 2000)
-          ||(structure.structureType == STRUCTURE_WALL && structure.hits < 30000);
+          ||(structure.structureType == STRUCTURE_WALL && structure.hits < 30000)
+          ||(structure.structureType == STRUCTURE_RAMPART && structure.hits < 60000);
         }
       });
       if(target) {
