@@ -2,6 +2,7 @@
 var roleAttacker = {
 
   /** @param {Creep} creep **/
+
   attackLocation: function(creep,roomName){
     if (creep.room.name == creep.memory.targetRoom) {
       var target = creep.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
