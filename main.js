@@ -253,7 +253,7 @@ module.exports.loop = function() {
                     roomsToScout = [];
                 }
             } else if (creep.memory.role == 'attacker') {
-                roleAttacker.attackLocation(creep, roomToAttack[0]);
+                roleAttacker.attackLocation(creep);
             } else if (creep.memory.role == 'claimer') {
                 if (creep.memory.action == 'claim') {
                     roleClaimer.claimLocation(creep);
