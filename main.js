@@ -138,7 +138,7 @@ module.exports.loop = function() {
                     var newName = spawn.createUpgrader(currentEnergyAvailable, "upgrader");
                 }
             } else if (repairers.length < NUM_REPAIRER) {
-                var newName = spawn.createCreep([WORK, CARRY, MOVE], undefined, {
+                var newName = spawn.createCreep([WORK,WORK, WORK,  CARRY,CARRY, MOVE, MOVE, MOVE], undefined, {
                     role: 'repairer',
                     repairing: false,
                     homeRoom: spawn.room.name
