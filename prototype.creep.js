@@ -19,8 +19,11 @@ module.exports = function(){
           return (structure.structureType == STRUCTURE_TOWER && structure.energy < structure.energyCapacity );
         }
       });
-
-      if (EMPTY_SPAWN_LOCATIONS.length > 0) {
+      if (EMPTY_STORAGE_LOCATIONS.length > 0){
+        if(this.transfer(EMPTY_STORAGE_LOCATIONS[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+            this.moveTo(EMPTY_STORAGE_LOCATIONS[0]);
+        }
+      }else if (EMPTY_SPAWN_LOCATIONS.length > 0) {
         if(this.transfer(EMPTY_SPAWN_LOCATIONS[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
             this.moveTo(EMPTY_SPAWN_LOCATIONS[0]);
         }
@@ -28,9 +31,27 @@ module.exports = function(){
         if(this.transfer(EMPTY_TOWER_LOCATIONS[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
             this.moveTo(EMPTY_TOWER_LOCATIONS[0]);
         }
-      }else if (EMPTY_STORAGE_LOCATIONS.length > 0){
-        if(this.transfer(EMPTY_STORAGE_LOCATIONS[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-            this.moveTo(EMPTY_STORAGE_LOCATIONS[0]);
+      }
+    }else if(role == 'storageMover'){
+      var EMPTY_SPAWN_LOCATIONS = this.room.find(FIND_STRUCTURES,{
+        filter: (structure) => {
+          return(structure.structureType == STRUCTURE_SPAWN
+            || structure.structureType == STRUCTURE_EXTENSION) && (structure.energy < structure.energyCapacity);
+        }
+      });
+
+      var EMPTY_TOWER_LOCATIONS = this.room.find(FIND_STRUCTURES,{
+        filter: (structure) => {
+          return (structure.structureType == STRUCTURE_TOWER && structure.energy < structure.energyCapacity );
+        }
+      });
+     if (EMPTY_SPAWN_LOCATIONS.length > 0) {
+        if(this.transfer(EMPTY_SPAWN_LOCATIONS[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+            this.moveTo(EMPTY_SPAWN_LOCATIONS[0]);
+        }
+      }else if (EMPTY_TOWER_LOCATIONS.length >0) {
+        if(this.transfer(EMPTY_TOWER_LOCATIONS[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+            this.moveTo(EMPTY_TOWER_LOCATIONS[0]);
         }
       }
     }else if(role == 'harvester'){
@@ -97,16 +118,11 @@ module.exports = function(){
                         (structure.structureType == STRUCTURE_SPAWN || structure.structureType == STRUCTURE_STORAGE || structure.structureType == STRUCTURE_LINK ));
                     }
             });
-
-    if(tower.length != 0) {
+   if(tower.length != 0) {
         if(this.attack(tower[0]) == ERR_NOT_IN_RANGE) {
             this.moveTo(tower[0]);
         }
-    }else if (target != null) {
-      if(this.attack(target) == ERR_NOT_IN_RANGE) {
-          this.moveTo(target);
-      }
-    }else if (extension.length != 0){
+    }else  if (extension.length != 0){
       if(this.attack(extension[0]) == ERR_NOT_IN_RANGE) {
           this.moveTo(extension[0]);
       }
@@ -114,7 +130,11 @@ module.exports = function(){
         if(this.attack(spawn[0]) == ERR_NOT_IN_RANGE) {
           this.moveTo(spawn[0]);
       }
-    }else{
+    }else if (target != null) {
+      if(this.attack(target) == ERR_NOT_IN_RANGE) {
+          this.moveTo(target);
+      }
+    } else  {
         this.moveTo(this.room.controller);
     }
   }

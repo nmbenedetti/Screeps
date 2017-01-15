@@ -52,7 +52,7 @@ module.exports = function(){
           return (structure.structureType == STRUCTURE_TOWER && structure.energy < structure.energyCapacity );
         }
       });
-      
+
       var container = this.room.find(FIND_STRUCTURES, {
                   filter: (structure) => {
                     return (
@@ -74,6 +74,47 @@ module.exports = function(){
             this.moveTo(EMPTY_STORAGE_LOCATIONS[0]);
         }
       }
+    }
+  }
+
+  Creep.prototype.attackRoom = function(){
+    var target = this.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
+    var tower = this.room.find(FIND_STRUCTURES, {
+                filter: (structure) => {
+                  return (
+                    (structure.structureType == STRUCTURE_TOWER ));
+                }
+        });
+        var extension = this.room.find(FIND_STRUCTURES, {
+                    filter: (structure) => {
+                      return (
+                        (structure.structureType == STRUCTURE_EXTENSION ));
+                    }
+            });
+             var spawn = this.room.find(FIND_STRUCTURES, {
+                   filter: (structure) => {
+                      return (
+                        (structure.structureType == STRUCTURE_SPAWN || structure.structureType == STRUCTURE_STORAGE || structure.structureType == STRUCTURE_LINK ));
+                    }
+            });
+   if(tower.length != 0) {
+        if(this.attack(tower[0]) == ERR_NOT_IN_RANGE) {
+            this.moveTo(tower[0]);
+        }
+    }else  if (extension.length != 0){
+      if(this.attack(extension[0]) == ERR_NOT_IN_RANGE) {
+          this.moveTo(extension[0]);
+      }
+    }else if(spawn.length != 0){
+        if(this.attack(spawn[0]) == ERR_NOT_IN_RANGE) {
+          this.moveTo(spawn[0]);
+      }
+    }else if (target != null) {
+      if(this.attack(target) == ERR_NOT_IN_RANGE) {
+          this.moveTo(target);
+      }
+    } else  {
+        this.moveTo(this.room.controller);
     }
   }
 };
