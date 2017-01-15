@@ -24,7 +24,7 @@ var roleAttacker = {
                           (structure.structureType == STRUCTURE_SPAWN || structure.structureType == STRUCTURE_STORAGE || structure.structureType == STRUCTURE_LINK ));
                       }
               });
-             console.log(target);
+          
       if(tower.length != 0) {
           if(creep.attack(tower[0]) == ERR_NOT_IN_RANGE) {
               creep.moveTo(tower[0]);
