@@ -77,7 +77,7 @@ module.exports.loop = function() {
             var spawn = Game.spawns[spawnRoomName];
 
             for (var source in roomInfo.SourceIDs) {
-                var sourceID = roomInfo.SourceIDS[source];
+                var sourceID = roomInfo.SourceIDs[source];
                 var spot = standardHarvesterArray.indexOf(sourceID);
                 if (spot == -1) {
                     console.log('Do i get here?');
