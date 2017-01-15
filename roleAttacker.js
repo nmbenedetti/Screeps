@@ -5,7 +5,7 @@ var roleAttacker = {
 
   attackLocation: function(creep,roomName){
     if (creep.room.name == creep.memory.targetRoom) {
-      var towers = this.room.find(FIND_STRUCTURES, {
+      var towers = creep.room.find(FIND_STRUCTURES, {
           filter: (structure) => {
               return (
                   (structure.structureType == STRUCTURE_TOWER && structure.energy > 100));
