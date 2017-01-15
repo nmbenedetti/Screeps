@@ -76,7 +76,7 @@ module.exports.loop = function() {
             var spawnRoomName = spawnRaw.name;
             var spawn = Game.spawns[spawnRoomName];
 
-            for (var source in roomInfo.SourceIDS) {
+            for (var source in roomInfo.SourceIDs) {
                 var sourceID = roomInfo.SourceIDS[source];
                 var spot = standardHarvesterArray.indexOf(sourceID);
                 if (spot == -1) {
