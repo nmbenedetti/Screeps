@@ -163,7 +163,7 @@ module.exports.loop = function() {
                 var attackers = _.filter(Game.creeps, (creep) => creep.memory.role == 'attacker' && creep.memory.homeRoom == i && creep.memory.targetRoom == attackRoomName);
 
                 if (typeof attackers.length == 'undefined' || attackers.length < NUM_ATTACKERS) {
-                   newName = spawn.createCreep([TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, ATTACK, TOUGH, ATTACK, TOUGH, ATTACK, ATTACK, ATTACK, ATTACK, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE], undefined, {
+                   newName = spawn.createCreep([TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, ATTACK, TOUGH, ATTACK, TOUGH, ATTACK, ATTACK, ATTACK, ATTACK, HEAL, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE], undefined, {
                       role: 'attacker',
                       homeRoom: roomName,
                       targetRoom: attackRoomName
@@ -216,9 +216,10 @@ module.exports.loop = function() {
             var hostiles = spawn.room.find(FIND_HOSTILE_CREEPS);
 
             if (hostiles.length > 0) {
+
                 var username = hostiles[0].owner.username;
-                Game.notify(`User ${username} spotted in spawn`);
-                var towers = Game.spawns.Spawn1.room.find(
+                Game.notify(`User ${username} spotted in ${spawnRoomName}`);
+                var towers = spawn.room.find(
                     FIND_MY_STRUCTURES, {
                         filter: {
                             structureType: STRUCTURE_TOWER
