@@ -14,13 +14,6 @@ var roleAttacker = {
 
       if(towers < 0 || typeof towers == 'undefined'){
         creep.attackRoom();
-      }else{
-         // while(creep.hits <2000){
-       // creep.heal(creep);
-     // }
-       //var exit = creep.room.findExitTo(creep.memory.homeRoom);
-      // creep.moveTo(creep.pos.findClosestByRange(exit));
-          creep.attackRoom();
       }
 
 

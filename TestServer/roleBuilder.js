@@ -20,7 +20,7 @@ var roleBuilder = {
           creep.moveTo(targets[0]);
         }
       }else {
-        
+        creep.moveTo(Game.flags.Builders);
       }
   	}
     //If creep needs to gather energy

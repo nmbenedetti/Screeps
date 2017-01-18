@@ -12,19 +12,17 @@ var worldManager = require('worldManager');
 
 
 var NUM_BUILDER = 1;
-var NUM_HARVESTER = 2;
-var NUM_UPGRADER =3;
+var NUM_UPGRADER = 2;
 var NUM_MOVER = 3;
-var NUM_REPAIRER = 2;
-var NUM_SCOUTS = 1;
+var NUM_REPAIRER = 1;
 var NUM_ATTACKERS = 2;
 var NUM_CLAIMERS = 1;
-var NUM_RESERVERS = 2;
-
 
 var logging = true;
 
 module.exports.loop = function() {
+
+    var roomToAttack = [];
 
     /*
     TO DO LIST for next major release
@@ -76,8 +74,8 @@ module.exports.loop = function() {
             var spawnRoomName = spawnRaw.name;
             var spawn = Game.spawns[spawnRoomName];
 
-            for (var source in roomInfo.SourceIDs) {
-                var sourceID = roomInfo.SourceIDs[source];
+            for (var source in roomInfo.SourceIDS) {
+                var sourceID = roomInfo.SourceIDS[source];
                 var spot = standardHarvesterArray.indexOf(sourceID);
                 if (spot == -1) {
                     console.log('Do i get here?');
@@ -138,7 +136,7 @@ module.exports.loop = function() {
                     var newName = spawn.createUpgrader(currentEnergyAvailable, "upgrader");
                 }
             } else if (repairers.length < NUM_REPAIRER) {
-                var newName = spawn.createCreep([WORK,WORK, WORK,  CARRY,CARRY, MOVE, MOVE, MOVE], undefined, {
+                var newName = spawn.createCreep([WORK, CARRY, MOVE], undefined, {
                     role: 'repairer',
                     repairing: false,
                     homeRoom: spawn.room.name
@@ -155,19 +153,6 @@ module.exports.loop = function() {
                         targetRoom: scoutRoomName,
                         scouting: false
                     });
-                }
-            }
-
-            for (var attackRoom in roomInfo.AttackRooms) {
-                var attackRoomName = roomInfo.AttackRooms[attackRoom];
-                var attackers = _.filter(Game.creeps, (creep) => creep.memory.role == 'attacker' && creep.memory.homeRoom == i && creep.memory.targetRoom == attackRoomName);
-
-                if (typeof attackers.length == 'undefined' || attackers.length < NUM_ATTACKERS) {
-                   newName = spawn.createCreep([TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, ATTACK,  ATTACK,  ATTACK, ATTACK, ATTACK, ATTACK,MOVE, MOVE,MOVE,MOVE, MOVE, MOVE, MOVE, MOVE, MOVE], undefined, {
-                      role: 'attacker',
-                      homeRoom: roomName,
-                      targetRoom: attackRoomName
-                  });
                 }
             }
 
@@ -216,10 +201,9 @@ module.exports.loop = function() {
             var hostiles = spawn.room.find(FIND_HOSTILE_CREEPS);
 
             if (hostiles.length > 0) {
-
                 var username = hostiles[0].owner.username;
-                Game.notify(`User ${username} spotted in ${spawnRoomName}`);
-                var towers = spawn.room.find(
+                Game.notify(`User ${username} spotted in spawn`);
+                var towers = Game.spawns.Spawn1.room.find(
                     FIND_MY_STRUCTURES, {
                         filter: {
                             structureType: STRUCTURE_TOWER
@@ -231,7 +215,23 @@ module.exports.loop = function() {
     }
 
 
+    for (var i in Game.spawns) {
 
+      var spawn = Game.spawns[i];
+
+      var spawnRoomName = spawn.room.name;
+
+
+      var attackers = _.filter(Game.creeps, (creep) => creep.memory.role == 'attacker' && creep.memory.homeRoom == spawnRoomName);
+
+      if (roomToAttack.length > 0 && attackers.length < NUM_ATTACKERS) {
+          var newName = spawn.createCreep([TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, ATTACK, TOUGH, ATTACK, TOUGH, ATTACK, ATTACK, ATTACK, ATTACK, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE], undefined, {
+              role: 'attacker',
+              homeRoom: spawnRoomName,
+              targetRoom: roomToAttack[0]
+          });
+      }
+  }
 
         //Make Creeps perform their roles
         for (var name in Game.creeps) {
@@ -254,7 +254,7 @@ module.exports.loop = function() {
                     roomsToScout = [];
                 }
             } else if (creep.memory.role == 'attacker') {
-                roleAttacker.attackLocation(creep);
+                roleAttacker.attackLocation(creep, roomToAttack[0]);
             } else if (creep.memory.role == 'claimer') {
                 if (creep.memory.action == 'claim') {
                     roleClaimer.claimLocation(creep);

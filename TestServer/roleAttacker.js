@@ -5,30 +5,48 @@ var roleAttacker = {
 
   attackLocation: function(creep,roomName){
     if (creep.room.name == creep.memory.targetRoom) {
-      var towers = creep.room.find(FIND_STRUCTURES, {
-          filter: (structure) => {
-              return (
-                  (structure.structureType == STRUCTURE_TOWER && structure.energy > 100));
+      var target = creep.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
+      var tower = creep.room.find(FIND_STRUCTURES, {
+                  filter: (structure) => {
+                    return (
+                      (structure.structureType == STRUCTURE_TOWER ));
+                  }
+          });
+          var extension = creep.room.find(FIND_STRUCTURES, {
+                      filter: (structure) => {
+                        return (
+                          (structure.structureType == STRUCTURE_EXTENSION ));
+                      }
+              });
+               var spawn = creep.room.find(FIND_STRUCTURES, {
+                     filter: (structure) => {
+                        return (
+                          (structure.structureType == STRUCTURE_SPAWN || structure.structureType == STRUCTURE_STORAGE || structure.structureType == STRUCTURE_LINK ));
+                      }
+              });
+             console.log(target);
+      if(tower.length != 0) {
+          if(creep.attack(tower[0]) == ERR_NOT_IN_RANGE) {
+              creep.moveTo(tower[0]);
           }
-      });
-
-      if(towers < 0 || typeof towers == 'undefined'){
-        creep.attackRoom();
+      }else if (target != null) {
+        if(creep.attack(target) == ERR_NOT_IN_RANGE) {
+            creep.moveTo(target);
+        }
+      }else if (extension.length != 0){
+        if(creep.attack(extension[0]) == ERR_NOT_IN_RANGE) {
+            creep.moveTo(extension[0]);
+        }
+      }else if(spawn.length != 0){
+          if(creep.attack(spawn[0]) == ERR_NOT_IN_RANGE) {
+            creep.moveTo(spawn[0]);
+        }
       }else{
-         // while(creep.hits <2000){
-       // creep.heal(creep);
-     // }
-       //var exit = creep.room.findExitTo(creep.memory.homeRoom);
-      // creep.moveTo(creep.pos.findClosestByRange(exit));
-          creep.attackRoom();
+          creep.moveTo(creep.room.controller);
       }
 
 
     }else{
-      while(creep.hits < creep.hitsMax){
-        creep.heal(creep);
-      }
-
        var exit = creep.room.findExitTo(creep.memory.targetRoom);
        creep.moveTo(creep.pos.findClosestByRange(exit));
     }

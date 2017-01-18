@@ -6,44 +6,43 @@ var WorldManager = {
     Memory.WorldManager = {};
     if (!Memory.WorldManager){Memory.WorldManager = {}; console.log('++ Memory.WorldManager: CREATED') }
     if (!Memory.WorldManager.flags) {Memory.WorldManager.flags = {}; console.log('++ Memory.WorldManager.flags: CREATED')}
-    if (!Memory.WorldManager.OperateRooms) {Memory.WorldManager.OperateRooms = {}; console.log('++ Memory.WorldManager.OperateRooms: CREATED')}
+    if (!Memory.WorldManager.OperateRooms) {Memory.WorldManager.OperateRooms = {}; console.log('++ Memory.WorldManager.rooms: CREATED')}
     if (!Memory.WorldManager.spawns) {Memory.WorldManager.spawns = {};  console.log('++ Memory.WorldManager.spawns: CREATED')}
-
+    var roomInfo ={
+      Spawns: [],
+      DefendRooms: [],
+      AttackRooms: [],
+      ClaimRooms: [],
+      ReserveRooms: [],
+      ScoutRooms: [],
+      RemoteHarvestRooms: {},
+      SourceIDs: []
+    };
     console.log('~~~~~ World Manager Memory COMPLETED ~~~~~');
-    this.initializeWorld();
+    this.initializeWorld(roomInfo);
 
   },
 
-  initializeWorld: function (){
+  initializeWorld: function (roomInfo){
     console.log('~~~~~ START: Building Game Manager From Existing Spawns ~~~~~');
     try{
       for(var i in Game.spawns){
         var spawn = Game.spawns[i];
         var room = spawn.room.name;
         var roomObject = {};
+        roomObject[room] = roomInfo;
+        Memory.WorldManager.OperateRooms = Object.assign(Memory.WorldManager.OperateRooms, roomObject);
 
-        var roomInfo ={
-          Spawns: [],
-          DefendRooms: [],
-          AttackRooms: [],
-          ClaimRooms: [],
-          ReserveRooms: [],
-          ScoutRooms: [],
-          RemoteHarvestRooms: {},
-          SourceIDs: []
-        };
         console.log('ROOM: ' + room + ' Has Been Found.');
         var sources = spawn.room.find(FIND_SOURCES);
 
         var sourceIDs = [];
         for(var source in sources){
           var  sourceObject = sources[source];
-          console.log('Source IDs found: ' + sourceObject.id);
           sourceIDs.push(sourceObject.id);
         }
-        roomInfo.SourceIDs = sourceIDs;
-        roomInfo.Spawns.push(spawn);
-        roomObject[room] = roomInfo;
+        Memory.WorldManager.OperateRooms[room].SourceIDS = sourceIDs;
+        Memory.WorldManager.OperateRooms[room].Spawns.push(spawn);
         Memory.WorldManager.OperateRooms = Object.assign(Memory.WorldManager.OperateRooms, roomObject);
       }
       console.log('~~~~~ COMPLETED: Building Game Manager From Existing Spawns ~~~~~');
@@ -146,22 +145,6 @@ var WorldManager = {
     var index = Memory.WorldManager.OperateRooms[operateRoom].RemoteHarvestRooms;
     Memory.WorldManager.OperateRooms[operateRoom].RemoteHarvestRooms = _.omit(index, [targetRoom]);
 
-  },
-
-  attackRoom: function(operateRoom, targetRoom){
-    Memory.WorldManager.OperateRooms[operateRoom].AttackRooms.push(targetRoom);
-    return '~~~~~ COMPLETED: '+targetRoom+' Has Been Added ~~~~~';
-
-  },
-
-  stopAttackRoom: function(operateRoom,targetRoom){
-    var index = Memory.WorldManager.OperateRooms[operateRoom].AttackRooms.indexOf(targetRoom);
-    if(index > - 1){
-      Memory.WorldManager.OperateRooms[operateRoom].AttackRooms.splice(index, 1);
-      return '~~~~~ COMPLETED: '+targetRoom+' Has Been Removed ~~~~~';
-    }else{
-      return '~~~~~ ERROR: '+targetRoom+' Has Not Been Found ~~~~~';
-    }
   },
 };
 module.exports = WorldManager;

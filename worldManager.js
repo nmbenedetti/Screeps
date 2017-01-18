@@ -143,7 +143,7 @@ var WorldManager = {
   },
 
   stopRemoteHarvestRoom: function(operateRoom,targetRoom){
-    var index = Memory.WorldManager.OperateRooms[operateRoom].RemoteHarvestRooms[targetRoom];
+    var index = Memory.WorldManager.OperateRooms[operateRoom].RemoteHarvestRooms;
     Memory.WorldManager.OperateRooms[operateRoom].RemoteHarvestRooms = _.omit(index, [targetRoom]);
 
   },
