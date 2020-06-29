@@ -34,14 +34,14 @@ module.exports.loop = function() {
     - Add containers in the room to the spawn will be used to determine if movers are needed
     - Write code to clear out old memory on old build versions to not cause issues
     */
-
+    if(_WORLD_STARTED = 0){
+      worldManager.memoryInitialize();
+      _WORLD_STARTED = 1;
+    }
 
     for (var i in Memory.WorldManager.OperateRooms) {
 
-        if(_WORLD_STARTED = 0){
-          worldManager.memoryInitialize();
-          _WORLD_STARTED = 1;
-        }
+
 
         var roomName = i;
         var roomInfo = Memory.WorldManager.OperateRooms[i];
