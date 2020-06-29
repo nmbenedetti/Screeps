@@ -21,6 +21,9 @@ var NUM_ATTACKERS = 2;
 var NUM_CLAIMERS = 1;
 var NUM_RESERVERS = 2;
 
+var _WORLD_STARTED = 0;
+
+
 
 var logging = true;
 
@@ -34,6 +37,12 @@ module.exports.loop = function() {
 
 
     for (var i in Memory.WorldManager.OperateRooms) {
+
+        if(_WORLD_STARTED = 0){
+          worldManager.memoryInitialize();
+          _WORLD_STARTED = 1;
+        }
+
         var roomName = i;
         var roomInfo = Memory.WorldManager.OperateRooms[i];
         var maxEnergeyAvailable = Game.rooms[i].energyCapacityAvailable;
