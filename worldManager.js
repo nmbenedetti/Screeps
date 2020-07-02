@@ -110,6 +110,7 @@ var WorldManager = {
     }
   },
 
+  //require('worldManger').scoutRoom("E47S39","E45S39");
   scoutRoom: function(operateRoom, targetRoom){
     Memory.WorldManager.OperateRooms[operateRoom].ScoutRooms.push(targetRoom);
     return '~~~~~ COMPLETED: '+targetRoom+' Has Been Added ~~~~~';
@@ -125,6 +126,7 @@ var WorldManager = {
       return '~~~~~ ERROR: '+targetRoom+' Has Not Been Found ~~~~~';
     }
   },
+
 
   claimRoom: function(operateRoom, targetRoom){
     Memory.WorldManager.OperateRooms[operateRoom].ClaimRooms.push(targetRoom);

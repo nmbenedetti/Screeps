@@ -1,4 +1,11 @@
 module.exports = function(){
+  //Abstract to fuction for Pick Up Energy and Unload energy. Them move harvester specific logic and Mover specific logic
+  // Back to their class files
+
+  //Build out Pick up and Drop off energy for different states in the game. If there are no containers then put it in the extensions / Spawn
+  // If there are containers but there are no movers and the extensions and spawn empty then store in spawn and extensions
+  // If there is storage and you are a mover then drop off in storage
+  // If there is storage and you are a harvester then drop off in container.  A Harvester will never drop off in a storage 
   Creep.prototype.unloadEnergy = function(role){
     if(role == 'mover'){
       var EMPTY_SPAWN_LOCATIONS = this.room.find(FIND_STRUCTURES,{
@@ -56,11 +63,13 @@ module.exports = function(){
       var container = this.room.find(FIND_STRUCTURES, {
                   filter: (structure) => {
                     return (
-                    //  (structure.structureType == STRUCTURE_SPAWN || structure.structureType == STRUCTURE_EXTENSION)
+                     //(structure.structureType == STRUCTURE_SPAWN || structure.structureType == STRUCTURE_EXTENSION)
                     (structure.structureType == STRUCTURE_CONTAINER && structure.store[RESOURCE_ENERGY] < structure.storeCapacity)
                     );
                   }
           });
+
+      //Something does not prioritize right here
       if(container.length > 0) {
           if(this.transfer(this.pos.findClosestByPath(container), RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
               this.moveTo(this.pos.findClosestByPath(container));

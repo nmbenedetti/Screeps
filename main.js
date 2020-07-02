@@ -10,22 +10,26 @@ var roleAttacker = require('roleAttacker');
 var roleClaimer = require('roleClaimer');
 var worldManager = require('worldManager');
 
+//require('worldManager').scoutRoom("E47S39","E45S39");
+//require('worldManager').claimroom("E47S39","E45S39");
 
-var NUM_BUILDER = 1;
-var NUM_HARVESTER = 2;
-var NUM_UPGRADER =4;
-var NUM_MOVER = 2;
-var NUM_REPAIRER = 1;
-var NUM_SCOUTS = 1;
-var NUM_ATTACKERS = 2;
-var NUM_CLAIMERS = 1;
-var NUM_RESERVERS = 2;
+var NUM_BUILDER = 1; //1
+var NUM_HARVESTER = 3;//2
+var NUM_UPGRADER =3;//4
+var NUM_MOVER = 1;//2
+var NUM_REPAIRER = 1;//1
+var NUM_SCOUTS = 1;//1
+var NUM_ATTACKERS = 1;//2
+var NUM_CLAIMERS = 1;//1
+var NUM_RESERVERS = 0;//2
 
 var _WORLD_STARTED = 0;
 
 
 
-var logging = true;
+//worldManager.memoryInitialize();
+
+var logging = false;
 
 module.exports.loop = function() {
 
@@ -33,11 +37,15 @@ module.exports.loop = function() {
     TO DO LIST for next major release
     - Add containers in the room to the spawn will be used to determine if movers are needed
     - Write code to clear out old memory on old build versions to not cause issues
+
+    Determine if we need more than one harvester per source. Track the harvesting output of the havesters in relation to the energy consumed over the the full life off a creep +
+    The total cost to build a creep at this stage of the game.  That way we can assign another harverster if we need to ramp up roduction
+
+    Tower logic - Right now it will only attack - need to make it repair and heal.
+
     */
-    if(_WORLD_STARTED = 0){
-      worldManager.memoryInitialize();
-      _WORLD_STARTED = 1;
-    }
+
+
 
     for (var i in Memory.WorldManager.OperateRooms) {
 
@@ -79,6 +87,7 @@ module.exports.loop = function() {
         }
 
         // Loop and build herversters
+        //This need to be modified because if i have two spawns in one room it does not mean i want a harverster per spawn ... right ?
         for (var x in roomInfo.Spawns) {
 
             var spawnRaw = roomInfo.Spawns[x];
@@ -89,8 +98,8 @@ module.exports.loop = function() {
                 var sourceID = roomInfo.SourceIDs[source];
                 var spot = standardHarvesterArray.indexOf(sourceID);
                 if (spot == -1) {
-                    console.log('Do i get here?');
-                    if (harvesters.length == 0) {
+                    console.log('Do i get here? Harvesters . Length: ' + harvesters.length );
+                    if (harvesters.length ==1 ) {
                         console.log('Do i get here or here?');
                         name = spawn.createHarvester(currentEnergyAvailable, "harvester");
                     } else {
@@ -129,6 +138,13 @@ module.exports.loop = function() {
                 }
             }
 
+            // if (harvesters.length < NUM_HARVESTER) {
+            //     var newName = spawn.createHarvester(maxEnergeyAvailable, "harvester");
+            //     if (harvesters.length == 0) {
+            //         var newName = spawn.createHarvester(currentEnergyAvailable, "harvester");
+            //     }
+            // }
+
             if (movers.length < NUM_MOVER) {
                 var newName = spawn.createMover(maxEnergeyAvailable, "mover");
                 if (movers.length == 0) {
@@ -147,7 +163,7 @@ module.exports.loop = function() {
                     var newName = spawn.createUpgrader(currentEnergyAvailable, "upgrader");
                 }
             } else if (repairers.length < NUM_REPAIRER) {
-                var newName = spawn.createCreep([WORK,WORK, WORK,  CARRY,CARRY, MOVE, MOVE, MOVE], undefined, {
+                var newName = spawn.createCreep([WORK,CARRY, MOVE, MOVE], undefined, {
                     role: 'repairer',
                     repairing: false,
                     homeRoom: spawn.room.name

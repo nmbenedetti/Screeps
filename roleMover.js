@@ -5,7 +5,7 @@ var roleMover = {
     if (creep.carry.energy == 0) {
       var containerWithEnergy = creep.room.find(FIND_STRUCTURES, {
           filter: (structure) => {
-              return (structure.structureType == STRUCTURE_CONTAINER && structure.store[RESOURCE_ENERGY] > 0);
+              return (structure.structureType == STRUCTURE_CONTAINER && structure.store[RESOURCE_ENERGY] > 100);
           }
       });
       var containerID = creep.pos.findClosestByPath(containerWithEnergy);

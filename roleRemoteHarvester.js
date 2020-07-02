@@ -14,7 +14,7 @@ var roleRemoteHarvester = {
       //creep.say("Swap to working!");
     }
     //If creep needs to transfer energy to spawn
-    if (creep.memory.working == true) {
+    if (creep.memory.working == true && creep.room.name == creep.memory.targetRoom) {
       //creep.say("Working!");
       var targets = creep.room.find(FIND_CONSTRUCTION_SITES);
       if(targets.length > 0) {
@@ -24,7 +24,7 @@ var roleRemoteHarvester = {
         }
       }else{
       if (creep.room.name == creep.memory.homeRoom) {
-      
+
          var targets = creep.room.find(FIND_STRUCTURES, {
           filter: (structure) => {
             return ((structure.structureType == STRUCTURE_STORAGE && structure.store[RESOURCE_ENERGY] < structure.storeCapacity));
@@ -36,7 +36,7 @@ var roleRemoteHarvester = {
                 creep.moveTo(creep.pos.findClosestByPath(targets));
             }
           }
-      
+
 
       }else{
          //console.log("going home");

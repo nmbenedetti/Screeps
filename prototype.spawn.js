@@ -18,7 +18,7 @@ module.exports = function() {
                 homeRoom: this.room.name
             });
         };
-//TODO: TEST
+
     StructureSpawn.prototype.createRemoteHarvester =
         function(energy, roleName) {
             var numberOfParts = Math.floor(energy / 300);
@@ -61,7 +61,7 @@ module.exports = function() {
 
     StructureSpawn.prototype.createMover =
         function(energy, roleName) {
-            var numberOfParts = Math.floor(energy / 200);
+            var numberOfParts = Math.floor(energy / 150);
             var body = [];
             for (var i = 0; i < numberOfParts; i++) {
                 body.push(CARRY);
